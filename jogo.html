@@ -3,72 +3,90 @@
     <head>
        
         <title>Jogo da Velha</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
         
-        <style type="text/css">
-            body{
-                font-family: sans-serif;
-            }
+        <script type="text/javascript" src="JS/jquery-3.6.3.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                
+                $("input[name=jogador1]").focusin(function(){
+                    $("input[name=jogador1]").attr("placeholder","");
+                }).focusout(function(){
+                    $("input[name=jogador1]").attr("placeholder","Nome Jogador 1");
+                });
+                
+               $("input[name=jogador2]").focusin(function(){
+                    $("input[name=jogador2]").attr("placeholder","");
+                }).focusout(function(){
+                    $("input[name=jogador2]").attr("placeholder","Nome Jogador 1");
+                });
+               
+                // Validação do preenchimento
+                $("#btn_comecar").click(function(){
+                    var jog1 = $("input[name=jogador1]").val();
+                    var jog2 = $("input[name=jogador2]").val();
+                    
+                    if(jog1.trim().length > 0 && jog2.trim().length > 0){
+                        ComecarJogo();
+                    }else{
+                        alert("Nome(s) não preenchido");
+                    }
+                });
+            });
             
-            table, .configurador{
-                width: 500px;
-                margin: auto;
-                border: 1px solid black;
-                border-collapse: collapse;
+            function ComecarJogo(){
+                var contadorClicks = 0;
+                
+                $("table td").click(function(){
+                    contadorClicks++;
+                    
+                    if(contadorClicks <= 9){
+                        
+                        if(contadorClicks % 2 == 0){
+                            //PAR
+                            $(this).text("O");
+                        }else{
+                            //Impar
+                            $(this).text("X");
+                        }
+                        if(contadorClicks == 9){
+                             $("#msg").text("Jogo Encerrado!!");
+                        }
+                    }
+                });
             }
-            
-            table td{
-                border: 1px solid black;
-                height: 166px;
-                text-align: center;
-                font-size: 96px;
-            }
-            .configurador{
-                text-align: center;
-                border: none;
-                margin-bottom: 10px
-            }
-            .configurador input{
-                padding: 10px
-            }
-            .configurador span{
-                background-color: lightgray;
-                padding: 9.5px 15px 10.5px 15px;
-                vertical-align: middle;
-                border: 1px solid gray;
-            }
-            .configurador button{
-                padding: 7px 15px;
-                background-color: lightgray;
-                border: 1px solid gray;
-            }
-        </style>
+        </script>
+        
     </head>
     
     
     <body>
         <div class="configurador">
-            <span>X</span><input type="text" name="Jogador1" placeholder="Nome Jogador 1">
+            <span>X</span><input type="text" name="jogador1" placeholder="Nome Jogador 1">
             x
-            <input type="text" name="Jogador1" placeholder="Nome Jogador 2"><span>O</span>
+            <input type="text" name="jogador2" placeholder="Nome Jogador 2"><span>O</span>
             <br />
             <br />
-            <button>Começar jogo</button>
+            <button id="btn_comecar">Começar jogo</button>
+            <br />
+            <div id="msg">
+            </div>
         </div>
         <table>
             <tr>
-                <td>X</td>
-                <td>O</td>
-                <td>X</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td>O</td>
-                <td>X</td>
-                <td>X</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td>X</td>
-                <td>O</td>
-                <td>O</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     
