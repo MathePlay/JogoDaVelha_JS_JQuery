@@ -2,7 +2,7 @@ body{
     font-family: sans-serif;
 }
 
-table, .configurador{
+table, .configurador, #contador{
     width: 500px;
     margin: auto;
     border: 1px solid black;
@@ -10,14 +10,14 @@ table, .configurador{
 }
 
 table td{
-    border: 1px solid black;
+    border: 1px solid lightgray;
     height: 166px;
     width: 166px;
     text-align: center;
     font-size: 96px;
 }
 
-.configurador{
+.configurador, #contador{
     text-align: center;
     border: none;
     margin-bottom: 10px
@@ -36,3 +36,18 @@ table td{
     background-color: lightgray;
     border: 1px solid gray;
 }
+
+.msg{
+    width: 480px;
+    padding: 10px;
+    background-color: #FAFAFA;
+    margin-bottom: 10px;
+    height: 40px;
+    border: 1px solid grey;
+    color: gray;
+}
+
+.reloj{
+    display: inline-block;
+    float: inherit;
+    padding-top: 5px;

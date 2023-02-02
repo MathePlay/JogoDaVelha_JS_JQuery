@@ -7,6 +7,7 @@
         
         <script type="text/javascript" src="JS/jquery-3.6.3.min.js"></script>
         <script type="text/javascript">
+            
             $(document).ready(function(){
                 
                 $("input[name=jogador1]").focusin(function(){
@@ -18,25 +19,36 @@
                $("input[name=jogador2]").focusin(function(){
                     $("input[name=jogador2]").attr("placeholder","");
                 }).focusout(function(){
-                    $("input[name=jogador2]").attr("placeholder","Nome Jogador 1");
+                    $("input[name=jogador2]").attr("placeholder","Nome Jogador 2");
                 });
                
                 // Validação do preenchimento
                 $("#btn_comecar").click(function(){
+                    
                     var jog1 = $("input[name=jogador1]").val();
                     var jog2 = $("input[name=jogador2]").val();
                     
                     if(jog1.trim().length > 0 && jog2.trim().length > 0){
+                        $(".msg").text("Jogo da Velha do Play!!");
                         ComecarJogo();
                     }else{
-                        alert("Nome(s) não preenchido");
+                        $(".msg").text("Nome(s) não Preenchido");
                     }
                 });
             });
             
             function ComecarJogo(){
-                var contadorClicks = 0;
                 
+                if ($("table td").text() == ""){
+                    inicio();
+                }
+                
+                $("table td").text("");
+                $("table td").css("border-color", "black");
+
+                
+                var contadorClicks = 0;
+               
                 $("table td").click(function(){
                     contadorClicks++;
                     
@@ -55,12 +67,14 @@
                         }
                         
                         if(contadorClicks == 9){
-                             $("#msg").text("Jogo Encerrado!!");
+                            $(".msg").append(" <br />Jogo Encerrado!!");
+                            $("table td").css("border-color", "lightgray");
+                            ReiniciarJogo();
                         } 
-                        
                     }
                     
                 });
+                
                 
                 function VerificarGanhador(){
                     var vencedor = [
@@ -79,17 +93,23 @@
                     
                     var X = new Array(9);
                     var O = new Array(9);
+                    
                     $("table td").each(function(key, value){
-                        if($(this).text() == "X"){
+                        
+                        if( $(this).text() == "X" ){
                             X[key] = key;
                         }
                         
-                        if($(this).text() == "O"){
+                        if( $(this).text() == "O" ){
                             O[key] = key;
                         } 
                     });
-                     
-                    //Percore as Linhas
+                    return DefinirGanhador(X, O, vencedor);
+                }
+            }
+            
+            function DefinirGanhador(X, O, vencedor){
+                //Percore as Linhas
                     for(var i = 0; i < vencedor.length; i++){
                         contadorX = 0;
                         contadorO = 0;
@@ -102,19 +122,56 @@
                             if( O[vencedor[i][y]] == vencedor[i][y] ){
                                 contadorO++;
                             }
-                            vencedor[i][x];
                         }
                         
+                        var jog1 = $("input[name=jogador1]").val();
+                        var jog2 = $("input[name=jogador2]").val();
+                        
                         if( contadorX == 3 ){
-                            alert("Jogador 1 ganhou");
+                            $(".msg").text("X - " + jog1 + " Ganhou!!");
+                            return true;
                         }
                         if( contadorO == 3 ){
-                            alert("Jogador 2 ganhou");
+                            $(".msg").text("O - " + jog2 + " Ganhou!!");
+                            clearInterval(control);
+                            return true;
                         }
                     }
-                    
+            }
+            
+            var segundos = 0;
+            var minutos = 0;
+            
+            function inicio () {
+            control = setInterval(cronometro,1000);
+            }
+            
+            function cronometro () {
+                if (segundos < 59) {
+                    segundos ++;
+                    if (segundos < 10) { segundos = "0"+segundos }
+                    Segundos.innerHTML = ": "+segundos;
+                }
+                if (segundos == 59) {
+                    segundos = -1;
+                }
+                if ( segundos == 0 ) {
+                    minutos++;
+                    if (minutos < 10) { minutos = "0"+minutos }
+                    Minutos.innerHTML = ""+minutos;
                 }
             }
+            
+            function reinicio () {
+                clearInterval(control);
+                segundos = 0;
+                minutos = 0;
+            }
+            
+                function ReiniciarJogo(){
+                    clearInterval(control);
+                    reinicio();
+                }
         </script>
         
     </head>
@@ -122,6 +179,9 @@
     
     <body>
         <div class="configurador">
+            
+            <div class="msg">Jogo da Velha do Play!!</div>
+            
             <span>X</span><input type="text" name="jogador1" placeholder="Nome Jogador 1">
             x
             <input type="text" name="jogador2" placeholder="Nome Jogador 2"><span>O</span>
@@ -129,9 +189,6 @@
             <br />
             <button id="btn_comecar">Começar jogo</button>
             <br />
-            <br />
-            <div id="msg">
-            </div>
         </div>
         <table>
             <tr>
@@ -150,6 +207,11 @@
                 <td></td>
             </tr>
         </table>
+        
+        <div id="contador">
+            <div class="reloj" id="Minutos">00</div>
+            <div class="reloj" id="Segundos">: 00</div>
+        </div>
     
     
         
